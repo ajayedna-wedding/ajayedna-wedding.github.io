@@ -141,6 +141,9 @@ input,select,textarea{text-align:center;text-align-last:center}
 footer h2{font-size:clamp(2.8rem,8vw,4rem)}
 #thanks{display:none;text-align:center;padding:2rem 0}
 #thanks p{font:italic 300 clamp(1.5rem,4vw,2.1rem)/1.4 var(--serif)}
+#thanks p.rstat{font:400 .78rem/1.6 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--sage-deep);margin:1.4rem 0 0}
+#thanks p.rmail{font:300 .95rem/1.6 var(--sans);letter-spacing:0;text-transform:none;font-style:normal;color:var(--ink);margin:.5rem auto 0;max-width:34ch;overflow-wrap:anywhere}
+#thanks p:empty{display:none}
 
 /* ---------- Footer ---------- */
 footer{padding:5rem 2.8rem 4rem;text-align:center;background:linear-gradient(#F4E8E2,#E3E9DD)}
@@ -397,7 +400,7 @@ button.alt{background:none;border:0;cursor:pointer;padding:.4rem 0}
       <div class="actions"><button class="btn solid" type="submit">Submit RSVP</button><a class="btn" id="saveBtn" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Wedding%20of%20Ajay%20%26%20Edna&amp;dates=20261227T150000/20261227T170000&amp;location=Marth%20Mariam%20Forane%20Syro-Malabar%20Catholic%20Church%2C%20Thuruthi%2C%20Kerala&amp;details=Wedding%20of%20Dr.%20Ajay%20Choondal%20%26%20Dr.%20Edna%20Chinnu%20Kurian" target="_blank" rel="noopener">Save the Date</a></div>
       <div class="err" id="e-send" role="alert"></div>
     </form>
-    <div id="thanks" role="status" tabindex="-1"><div class="line"></div><p>Thank you for celebrating this special day with us.</p><p class="snote" id="rsvpStatus"></p><div class="line"></div><div class="actions" id="sendRow"></div></div>
+    <div id="thanks" role="status" tabindex="-1"><div class="line"></div><p>Thank you for celebrating this special day with us.</p><p class="rstat" id="rsvpStatus"></p><p class="rmail" id="rsvpMail"></p><div class="line"></div><div class="actions" id="sendRow"></div></div>
   </div>
 </section>
 </main>
@@ -480,7 +483,8 @@ $('#form').addEventListener('submit',async e=>{e.preventDefault();
   const ok=await postRsvp({name:n,email:em,guests:f.guests.value,attend:f.attend.value,msg:f.msg.value.trim(),device:deviceId(),website:f.website.value});
   btn.disabled=false;btn.textContent='Submit RSVP';
   if(!ok){err.textContent='Sorry, we couldn\u2019t send your RSVP. Please check your connection and tap Submit again.';return}
-  $('#rsvpStatus').textContent='Your RSVP has been received \u2713'+(em?' A confirmation is on its way to '+em+'.':'');
+  $('#rsvpStatus').textContent='RSVP received \u2713';
+  $('#rsvpMail').textContent=em?'A confirmation email is on its way to '+em:'';
   f.style.display='none';const t=$('#thanks');t.style.display='block';t.focus();
 });
 
