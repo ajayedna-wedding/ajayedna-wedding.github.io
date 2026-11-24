@@ -29,7 +29,7 @@ If you change `Code.gs` later, use **Deploy → Manage deployments → Edit → 
 If a guest enters an email address (optional), the script emails them a confirmation styled like the invitation (`email-preview.html` shows it). Guests who decline get a shorter version.
 
 - Sent from the Google account that owns the sheet, with the display name "Ajay & Edna".
-- **Confirmation email** column: `sent <time>`, `skipped: already sent recently` (one per address every 6 hours), `skipped: daily email limit reached` (about 100 a day on a personal Gmail), or `error: …`. The RSVP itself is always saved.
+- **Confirmation email** column: `sent <time>`, `skipped: already sent recently` (one per address every 6 hours; run `resetEmailLimit` in the editor to clear it while testing), `skipped: daily email limit reached` (about 100 a day on a personal Gmail), or `error: …`. The RSVP itself is always saved.
 - After updating `Code.gs`: run `setup` once (approve the new "send email" permission), then **Deploy → Manage deployments → Edit → Version: New version → Deploy**. The `/exec` URL stays the same.
 
 ## Viewing the sheet
@@ -47,6 +47,7 @@ If a guest enters an email address (optional), the script emails them a confirma
 
 ## Changelog
 
+- 2026-11-24 — `resetEmailLimit()` editor function to clear the 6-hour email limit while testing.
 - 2026-11-24 — Reception time set to 6:00 PM (page, calendar event 6–9 PM, confirmation email, preview).
 - 2026-11-24 — Optional email field; themed confirmation email from the Apps Script, with a 6-hour per-address limit.
 - 2026-11-24 — RSVPs now go to the sheet owned by the wedding Gmail account.
