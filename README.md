@@ -39,4 +39,5 @@ If you change `Code.gs` later, use **Deploy → Manage deployments → Edit → 
 
 ## Changelog
 
+- 2026-11-24 — RSVPs now go to the sheet owned by the wedding Gmail account.
 - 2026-11-24 — Initial version: invitation page, RSVP to Google Sheet via Apps Script (timestamps in IST), email preview for sign-off.
