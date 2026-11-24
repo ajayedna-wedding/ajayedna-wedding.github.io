@@ -24,6 +24,14 @@ The **Summary** tab shows total replies, attending/declined, **total guests atte
 
 If you change `Code.gs` later, use **Deploy → Manage deployments → Edit → New version**. This keeps the same URL, so the page doesn't need changing.
 
+## Confirmation emails
+
+If a guest enters an email address (optional), the script emails them a confirmation styled like the invitation (`email-preview.html` shows it). Guests who decline get a shorter version.
+
+- Sent from the Google account that owns the sheet, with the display name "Ajay & Edna".
+- **Confirmation email** column: `sent <time>`, `skipped: already sent recently` (one per address every 6 hours), `skipped: daily email limit reached` (about 100 a day on a personal Gmail), or `error: …`. The RSVP itself is always saved.
+- After updating `Code.gs`: run `setup` once (approve the new "send email" permission), then **Deploy → Manage deployments → Edit → Version: New version → Deploy**. The `/exec` URL stays the same.
+
 ## Viewing the sheet
 
 - **Computer:** go to sheets.google.com (or drive.google.com) signed in to the account that owns the sheet, then open "Wedding RSVPs".
@@ -39,5 +47,6 @@ If you change `Code.gs` later, use **Deploy → Manage deployments → Edit → 
 
 ## Changelog
 
+- 2026-11-24 — Optional email field; themed confirmation email from the Apps Script, with a 6-hour per-address limit.
 - 2026-11-24 — RSVPs now go to the sheet owned by the wedding Gmail account.
 - 2026-11-24 — Initial version: invitation page, RSVP to Google Sheet via Apps Script (timestamps in IST), email preview for sign-off.

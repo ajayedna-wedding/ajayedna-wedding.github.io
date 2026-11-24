@@ -383,6 +383,7 @@ button.alt{background:none;border:0;cursor:pointer;padding:.4rem 0}
   <div class="rsvp reveal">
     <form id="form" novalidate>
       <div class="f"><label for="name">Full Name</label><input id="name" name="name" autocomplete="name" required><div class="err" id="e-name"></div></div>
+      <div class="f"><label for="email">Email <span style="text-transform:none;letter-spacing:0;opacity:.7">(optional, for a confirmation)</span></label><input id="email" name="email" type="email" inputmode="email" autocomplete="email" maxlength="254"><div class="err" id="e-email"></div></div>
       <div class="f"><label for="guests">Number of Guests</label>
         <select id="guests" name="guests"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select></div>
       <fieldset><legend>Attendance</legend>
@@ -471,13 +472,15 @@ async function postRsvp(d){
 $('#form').addEventListener('submit',async e=>{e.preventDefault();
   const f=e.target,n=f.name.value.trim(),err=$('#e-send');
   $('#e-name').textContent=n?'':'Please enter your name.';err.textContent='';
-  if(!n)return;
+  const em=f.email.value.trim(),emOk=!em||/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em);
+  $('#e-email').textContent=emOk?'':'Please check your email address, or leave it blank.';
+  if(!n||!emOk)return;
   if(!CFG.rsvpEndpoint){err.textContent='RSVP is not open yet \u2013 please try again later.';return}
   const btn=f.querySelector('button[type="submit"]');btn.disabled=true;btn.textContent='Sending\u2026';
-  const ok=await postRsvp({name:n,guests:f.guests.value,attend:f.attend.value,msg:f.msg.value.trim(),device:deviceId(),website:f.website.value});
+  const ok=await postRsvp({name:n,email:em,guests:f.guests.value,attend:f.attend.value,msg:f.msg.value.trim(),device:deviceId(),website:f.website.value});
   btn.disabled=false;btn.textContent='Submit RSVP';
   if(!ok){err.textContent='Sorry, we couldn\u2019t send your RSVP. Please check your connection and tap Submit again.';return}
-  $('#rsvpStatus').textContent='Your RSVP has been received \u2713';
+  $('#rsvpStatus').textContent='Your RSVP has been received \u2713'+(em?' A confirmation is on its way to '+em+'.':'');
   f.style.display='none';const t=$('#thanks');t.style.display='block';t.focus();
 });
 
