@@ -115,7 +115,7 @@ function emailHtml_(r) {
         <p style="margin:0;${SERIF}font-style:italic;font-size:24px;color:#2E2E2E;">Holy Matrimony</p>
         <p style="margin:6px 0 0;${SANS}font-weight:300;font-size:15px;line-height:1.7;color:#2E2E2E;">3:00 PM &middot; Marth Mariam Forane Syro-Malabar Catholic Church, Thuruthi, Kerala</p>
         <p style="margin:18px 0 0;${SERIF}font-style:italic;font-size:24px;color:#2E2E2E;">Reception</p>
-        <p style="margin:6px 0 0;${SANS}font-weight:300;font-size:15px;line-height:1.7;color:#2E2E2E;">Following the ceremony &middot; Church Parish Hall, Thuruthi, Kerala</p>
+        <p style="margin:6px 0 0;${SANS}font-weight:300;font-size:15px;line-height:1.7;color:#2E2E2E;">6:00 PM &middot; Church Parish Hall, Thuruthi, Kerala</p>
       </td></tr>
       <tr><td align="center" style="padding:30px 24px 8px;">
         <a href="${CAL_URL}" style="display:inline-block;margin:6px;padding:14px 24px;background:#6F8470;border:1px solid #6F8470;color:#ffffff;${SANS}font-size:12px;letter-spacing:.24em;text-transform:uppercase;text-decoration:none;">Add to Calendar</a>
@@ -169,7 +169,7 @@ function emailText_(r) {
     '',
     ...(yes ? [
       'Holy Matrimony: 3:00 PM, Marth Mariam Forane Syro-Malabar Catholic Church, Thuruthi, Kerala',
-      'Reception: following the ceremony, Church Parish Hall, Thuruthi, Kerala',
+      'Reception: 6:00 PM, Church Parish Hall, Thuruthi, Kerala',
       '',
       'Add to calendar: ' + CAL_URL,
       'Location: ' + MAP_URL,

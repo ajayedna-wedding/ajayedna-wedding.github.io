@@ -47,6 +47,7 @@ If a guest enters an email address (optional), the script emails them a confirma
 
 ## Changelog
 
+- 2026-11-24 — Reception time set to 6:00 PM (page, calendar event 6–9 PM, confirmation email, preview).
 - 2026-11-24 — Optional email field; themed confirmation email from the Apps Script, with a 6-hour per-address limit.
 - 2026-11-24 — RSVPs now go to the sheet owned by the wedding Gmail account.
 - 2026-11-24 — Initial version: invitation page, RSVP to Google Sheet via Apps Script (timestamps in IST), email preview for sign-off.

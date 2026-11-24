@@ -372,11 +372,11 @@ button.alt{background:none;border:0;cursor:pointer;padding:.4rem 0}
     <dl>
       <div><dt>Venue</dt><dd>Marth Mariam Forane Syro-Malabar Catholic Church Parish Hall<br>Thuruthi, Kerala</dd></div>
       <div><dt>Date</dt><dd>Sunday, 27 December 2026</dd></div>
-      <div><dt>Time</dt><dd>Following the wedding ceremony</dd></div>
+      <div><dt>Time</dt><dd>6:00 PM</dd></div>
     </dl>
     <div class="actions">
       <a class="btn" id="recMap" href="https://www.google.com/maps/search/?api=1&amp;query=Marth%20Mariam%20Forane%20Syro-Malabar%20Catholic%20Church%20Parish%20Hall%2C%20Thuruthi%2C%20Kerala" target="_blank" rel="noopener">View Location</a>
-      <a class="btn" id="recCal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Wedding%20Reception%20of%20Ajay%20%26%20Edna&amp;dates=20261227/20261228&amp;location=Marth%20Mariam%20Forane%20Syro-Malabar%20Catholic%20Church%20Parish%20Hall%2C%20Thuruthi%2C%20Kerala&amp;details=Reception%20following%20the%20wedding%20of%20Dr.%20Ajay%20Choondal%20%26%20Dr.%20Edna%20Chinnu%20Kurian" target="_blank" rel="noopener">Add to Calendar</a>
+      <a class="btn" id="recCal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=Wedding%20Reception%20of%20Ajay%20%26%20Edna&amp;dates=20261227T180000/20261227T210000&amp;location=Marth%20Mariam%20Forane%20Syro-Malabar%20Catholic%20Church%20Parish%20Hall%2C%20Thuruthi%2C%20Kerala&amp;details=Reception%20following%20the%20wedding%20of%20Dr.%20Ajay%20Choondal%20%26%20Dr.%20Edna%20Chinnu%20Kurian" target="_blank" rel="noopener">Add to Calendar</a>
     </div>
   </div>
 </section>
@@ -440,7 +440,7 @@ const recVenue='Marth Mariam Forane Syro-Malabar Catholic Church Parish Hall, Th
 $('#recMap').href=mapUrl(recVenue);$('#recMap').dataset.addr=recVenue;
 [['#mapBtn',CFG.venue],['#recMap',recVenue]].forEach(([id,v])=>{const b=$(id);b.dataset.alt='maps://?q='+q(v);
   b.closest('.actions').insertAdjacentHTML('afterend',`<div class="altrow">${IOS?`<a class="alt" target="_blank" rel="noopener" data-addr="${v}" data-alt="comgooglemaps://?q=${q(v)}" href="${gMap(v)}">Open in Google Maps</a>`:''}<button type="button" class="alt" data-copy="${v}">Copy address</button></div>`)});
-$('#recCal').href='https://calendar.google.com/calendar/render?action=TEMPLATE&text='+q('Wedding Reception of Ajay & Edna')+'&dates=20261227/20261228&location='+q(recVenue)+'&details='+q('Reception following the wedding of Dr. Ajay Choondal & Dr. Edna Chinnu Kurian');
+$('#recCal').href='https://calendar.google.com/calendar/render?action=TEMPLATE&text='+q('Wedding Reception of Ajay & Edna')+'&dates=20261227T180000/20261227T210000&location='+q(recVenue)+'&details='+q('Reception following the wedding of Dr. Ajay Choondal & Dr. Edna Chinnu Kurian');
 
 /* countdown */
 const target=new Date(`2026-12-27T${CFG.startTime||'00:00'}:00`);let last={};
