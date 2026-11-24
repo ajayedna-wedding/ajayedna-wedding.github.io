@@ -96,6 +96,21 @@ function sendConfirmation_(r) {
   return 'sent ' + Utilities.formatDate(new Date(), TZ, 'dd MMM, h:mm a');
 }
 
+/**
+ * Run from the editor to clear the 6-hour "already sent recently" limit for every email in the sheet
+ * (useful while testing). No redeploy needed.
+ */
+function resetEmailLimit() {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(RSVP_SHEET);
+  const last = sheet.getLastRow();
+  if (last < 2) return;
+  const emails = sheet.getRange(2, 7, last - 1, 1).getValues()
+    .map(r => String(r[0]).replace(/^'/, '').trim().toLowerCase()).filter(Boolean);
+  const keys = [...new Set(emails)].map(e => 'mail:' + e);
+  CacheService.getScriptCache().removeAll(keys);
+  Logger.log('Cleared the email limit for ' + keys.length + ' address(es).');
+}
+
 /* ---------------- email content (matches email-preview.html) ---------------- */
 
 const CAL_URL = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=Wedding%20of%20Ajay%20%26%20Edna&dates=20261227T150000/20261227T170000&location=Marth%20Mariam%20Forane%20Syro-Malabar%20Catholic%20Church%2C%20Thuruthi%2C%20Kerala&details=Wedding%20of%20Dr.%20Ajay%20Choondal%20%26%20Dr.%20Edna%20Chinnu%20Kurian';
