@@ -16,6 +16,7 @@ const SENDER_NAME = 'Ajay & Edna';
 const MAIL_COOLDOWN_SECONDS = 21600;   // at most one confirmation per email address every 6 hours
 
 /** Who guests can call, chosen by the link they opened: https://ajayjc47.github.io/?family=ajay or ?family=edna */
+const DEFAULT_FAMILY = 'ajay';   // used for the plain link (no ?family=) or an unknown value
 const FAMILY_CONTACTS = {
   ajay: { name: 'Sanjay', phone: '+91 9886818914' },
   edna: { name: 'Jevon', phone: '+91 7594943698' },
@@ -61,7 +62,7 @@ function doPost(e) {
     const attend = d.attend === DECLINE ? DECLINE : ATTEND;
     const guests = Math.max(1, Math.min(20, parseInt(d.guests, 10) || 1));
     const email = validEmail_(d.email);
-    const family = FAMILY_CONTACTS[String(d.family || '').trim().toLowerCase()] ? String(d.family).trim().toLowerCase() : '';
+    const family = FAMILY_CONTACTS[String(d.family || '').trim().toLowerCase()] ? String(d.family).trim().toLowerCase() : DEFAULT_FAMILY;
     const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(RSVP_SHEET);
     if (!sheet) return json_({ ok: false, error: 'run setup() first' });
     sheet.appendRow([new Date(), name, attend, guests, clean_(d.msg, 1000), clean_(d.device, 20),

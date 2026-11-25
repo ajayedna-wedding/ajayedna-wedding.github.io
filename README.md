@@ -47,6 +47,7 @@ If a guest enters an email address (optional), the script emails them a confirma
 
 ## Changelog
 
+- 2026-11-25 — The plain link (no `?family=`, or an unknown value) now defaults to `ajay`: the email shows Sanjay's number and the sheet records `ajay`.
 - 2026-11-25 — Family links: `https://ajayjc47.github.io/?family=ajay` adds "For any queries you can call Sanjay +91 9886818914" to the confirmation email; `?family=edna` adds "… Jevon +91 7594943698". The family is also saved in a new **Family** column (run `setup()` once to add the header). Any other or missing value adds no line.
 - 2026-11-25 — Reverted the reception time to "Following the ceremony" (page, calendar event, email, preview).
 - 2026-11-24 — `resetEmailLimit()` editor function to clear the 6-hour email limit while testing.
