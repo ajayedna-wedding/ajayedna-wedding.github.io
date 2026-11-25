@@ -555,7 +555,11 @@ document.addEventListener('click',e=>{
 /* envelope sequence */
 const stage=$('#stage');let opened=false;
 function open(){if(opened)return;opened=true;stage.classList.add('open');if(CFG.music)music(true);
-  setTimeout(()=>{stage.classList.add('reveal-site');$('#intro').classList.add('done');document.body.classList.remove('locked');scrollTo(0,0)},reduce?300:3800);}
+  setTimeout(()=>{stage.classList.add('reveal-site');$('#intro').classList.add('done');document.body.classList.remove('locked');goHash()},reduce?300:3800);}
+/* after the envelope, go to the section in the link (e.g. #rsvp), else the top; re-aim once late images have loaded */
+function goHash(){let el=null;try{const h=decodeURIComponent(location.hash.slice(1));if(h)el=document.getElementById(h)}catch(_){}
+  if(!el){scrollTo(0,0);return}
+  const go=()=>el.scrollIntoView({behavior:'auto',block:'start'});go();setTimeout(go,700);setTimeout(go,1600)}
 $('#seal').onclick=()=>{open();if(CFG.music&&!on)music(true)};
 $('#intro').addEventListener('click',()=>{open();if(CFG.music&&!on)music(true)});
 setTimeout(open,reduce?200:2600);
