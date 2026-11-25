@@ -11,11 +11,11 @@ const TZ = 'Asia/Kolkata';
 const ATTEND = 'Happily Attending';
 const DECLINE = 'Regretfully Decline';
 
-const SITE_URL = 'https://ajayjc47.github.io/';
+const SITE_URL = 'https://ajayedna-wedding.github.io/';
 const SENDER_NAME = 'Ajay & Edna';
 const MAIL_COOLDOWN_SECONDS = 21600;   // at most one confirmation per email address every 6 hours
 
-/** Who guests can call, chosen by the link they opened: https://ajayjc47.github.io/?family=ajay or ?family=edna */
+/** Who guests can call, chosen by the link they opened: https://ajayedna-wedding.github.io/?family=ajay or ?family=edna */
 const DEFAULT_FAMILY = 'ajay';   // used for the plain link (no ?family=) or an unknown value
 const FAMILY_CONTACTS = {
   ajay: { name: 'Sanjay', phone: '+91 9886818914' },

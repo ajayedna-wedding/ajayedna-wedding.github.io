@@ -47,6 +47,7 @@ If a guest enters an email address (optional), the script emails them a confirma
 
 ## Changelog
 
+- 2026-11-25 — Moved to the `ajayedna-wedding` organization: site is now https://ajayedna-wedding.github.io (repo transferred and renamed; email link and preview tags updated).
 - 2026-11-25 — WhatsApp link preview: title "RSVP · Ajay & Edna's Wedding", date/place line, and a photo (`og.jpg`, cropped from the hero photo).
 - 2026-11-25 — Links ending in a section (e.g. `/?family=ajay#rsvp`) now land on that section after the envelope opens, instead of the top.
 - 2026-11-25 — Summary tab: replies, replies attending and guests attending for the Ajay and Edna families (run `setup()` to add them).
