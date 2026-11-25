@@ -47,6 +47,8 @@ If a guest enters an email address (optional), the script emails them a confirma
 
 ## Changelog
 
+- 2026-11-25 — Family links: `https://ajayjc47.github.io/?family=ajay` adds "For any queries you can call Sanjay +91 9886818914" to the confirmation email; `?family=edna` adds "… Jevon +91 7594943698". The family is also saved in a new **Family** column (run `setup()` once to add the header). Any other or missing value adds no line.
+- 2026-11-25 — Reverted the reception time to "Following the ceremony" (page, calendar event, email, preview).
 - 2026-11-24 — `resetEmailLimit()` editor function to clear the 6-hour email limit while testing.
 - 2026-11-24 — Reception time set to 6:00 PM (page, calendar event 6–9 PM, confirmation email, preview).
 - 2026-11-24 — Optional email field; themed confirmation email from the Apps Script, with a 6-hour per-address limit.

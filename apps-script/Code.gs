@@ -6,7 +6,7 @@
  */
 const RSVP_SHEET = 'RSVPs';
 const SUMMARY_SHEET = 'Summary';
-const HEADERS = ['Received (IST)', 'Full Name', 'Attendance', 'Number of Guests', 'Message', 'Device', 'Email', 'Confirmation email'];
+const HEADERS = ['Received (IST)', 'Full Name', 'Attendance', 'Number of Guests', 'Message', 'Device', 'Email', 'Confirmation email', 'Family'];
 const TZ = 'Asia/Kolkata';
 const ATTEND = 'Happily Attending';
 const DECLINE = 'Regretfully Decline';
@@ -14,6 +14,12 @@ const DECLINE = 'Regretfully Decline';
 const SITE_URL = 'https://ajayjc47.github.io/';
 const SENDER_NAME = 'Ajay & Edna';
 const MAIL_COOLDOWN_SECONDS = 21600;   // at most one confirmation per email address every 6 hours
+
+/** Who guests can call, chosen by the link they opened: https://ajayjc47.github.io/?family=ajay or ?family=edna */
+const FAMILY_CONTACTS = {
+  ajay: { name: 'Sanjay', phone: '+91 9886818914' },
+  edna: { name: 'Jevon', phone: '+91 7594943698' },
+};
 
 /** Run from the editor: creates/refreshes both tabs, headers and live totals, and asks for permissions. */
 function setup() {
@@ -55,12 +61,13 @@ function doPost(e) {
     const attend = d.attend === DECLINE ? DECLINE : ATTEND;
     const guests = Math.max(1, Math.min(20, parseInt(d.guests, 10) || 1));
     const email = validEmail_(d.email);
+    const family = FAMILY_CONTACTS[String(d.family || '').trim().toLowerCase()] ? String(d.family).trim().toLowerCase() : '';
     const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(RSVP_SHEET);
     if (!sheet) return json_({ ok: false, error: 'run setup() first' });
     sheet.appendRow([new Date(), name, attend, guests, clean_(d.msg, 1000), clean_(d.device, 20),
-                     clean_(email, 254), email ? 'pending' : '']);
+                     clean_(email, 254), email ? 'pending' : '', family]);
     row = sheet.getLastRow();
-    rsvp = { sheet, name: String(d.name).trim().slice(0, 120), attend, guests, email };
+    rsvp = { sheet, name: String(d.name).trim().slice(0, 120), attend, guests, email, family };
   } catch (err) {
     return json_({ ok: false, error: String(err) });
   } finally {
@@ -118,6 +125,7 @@ const MAP_URL = 'https://www.google.com/maps/search/?api=1&query=Marth%20Mariam%
 
 function emailHtml_(r) {
   const yes = r.attend === ATTEND;
+  const contact = FAMILY_CONTACTS[r.family];
   const SANS = "font-family:Inter,Arial,sans-serif;";
   const SERIF = "font-family:'Cormorant Garamond',Georgia,serif;";
   const LBL = `${SANS}font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:#C8A96B;`;
@@ -130,7 +138,7 @@ function emailHtml_(r) {
         <p style="margin:0;${SERIF}font-style:italic;font-size:24px;color:#2E2E2E;">Holy Matrimony</p>
         <p style="margin:6px 0 0;${SANS}font-weight:300;font-size:15px;line-height:1.7;color:#2E2E2E;">3:00 PM &middot; Marth Mariam Forane Syro-Malabar Catholic Church, Thuruthi, Kerala</p>
         <p style="margin:18px 0 0;${SERIF}font-style:italic;font-size:24px;color:#2E2E2E;">Reception</p>
-        <p style="margin:6px 0 0;${SANS}font-weight:300;font-size:15px;line-height:1.7;color:#2E2E2E;">6:00 PM &middot; Church Parish Hall, Thuruthi, Kerala</p>
+        <p style="margin:6px 0 0;${SANS}font-weight:300;font-size:15px;line-height:1.7;color:#2E2E2E;">Following the ceremony &middot; Church Parish Hall, Thuruthi, Kerala</p>
       </td></tr>
       <tr><td align="center" style="padding:30px 24px 8px;">
         <a href="${CAL_URL}" style="display:inline-block;margin:6px;padding:14px 24px;background:#6F8470;border:1px solid #6F8470;color:#ffffff;${SANS}font-size:12px;letter-spacing:.24em;text-transform:uppercase;text-decoration:none;">Add to Calendar</a>
@@ -161,7 +169,8 @@ function emailHtml_(r) {
       </td></tr>${details}
       <tr><td align="center" style="padding:22px 36px 40px;">
         <div style="margin:0 0 18px;">${rule}</div>
-        <p style="margin:0;${SANS}font-weight:300;font-size:13px;line-height:1.7;color:#6b6b6b;">Plans changed? Simply submit the RSVP form again on the <a href="${SITE_URL}#rsvp" style="color:#6F8470;">invitation page</a>.</p>
+        <p style="margin:0;${SANS}font-weight:300;font-size:13px;line-height:1.7;color:#6b6b6b;">Plans changed? Simply submit the RSVP form again on the <a href="${siteLink_(r)}#rsvp" style="color:#6F8470;">invitation page</a>.</p>${contact ? `
+        <p style="margin:10px 0 0;${SANS}font-weight:300;font-size:13px;line-height:1.7;color:#6b6b6b;">For any queries you can call ${contact.name} <a href="tel:${contact.phone.replace(/\s/g, '')}" style="color:#6F8470;text-decoration:none;white-space:nowrap;">${contact.phone}</a></p>` : ''}
         <p style="margin:16px 0 0;${SERIF}font-style:italic;font-size:20px;color:#2E2E2E;">With love, Ajay &amp; Edna</p>
       </td></tr>
     </table>
@@ -174,6 +183,7 @@ function emailHtml_(r) {
 
 function emailText_(r) {
   const yes = r.attend === ATTEND;
+  const contact = FAMILY_CONTACTS[r.family];
   return [
     `Dear ${r.name},`,
     '',
@@ -184,19 +194,25 @@ function emailText_(r) {
     '',
     ...(yes ? [
       'Holy Matrimony: 3:00 PM, Marth Mariam Forane Syro-Malabar Catholic Church, Thuruthi, Kerala',
-      'Reception: 6:00 PM, Church Parish Hall, Thuruthi, Kerala',
+      'Reception: following the ceremony, Church Parish Hall, Thuruthi, Kerala',
       '',
       'Add to calendar: ' + CAL_URL,
       'Location: ' + MAP_URL,
       '',
     ] : []),
-    `Plans changed? Submit the RSVP form again: ${SITE_URL}#rsvp`,
+    `Plans changed? Submit the RSVP form again: ${siteLink_(r)}#rsvp`,
+    ...(contact ? [`For any queries you can call ${contact.name} ${contact.phone}`] : []),
     '',
     'With love, Ajay & Edna',
   ].join('\n');
 }
 
 /* ---------------- helpers ---------------- */
+
+/** The invitation link, keeping the guest's ?family= so a re-submitted RSVP gets the same contact. */
+function siteLink_(r) {
+  return SITE_URL + (r.family ? '?family=' + r.family : '');
+}
 
 function validEmail_(v) {
   const s = String(v == null ? '' : v).trim().slice(0, 254);
