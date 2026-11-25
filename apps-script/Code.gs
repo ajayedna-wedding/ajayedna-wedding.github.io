@@ -44,6 +44,19 @@ function setup() {
     ['Distinct names', `=COUNTUNIQUE(${r}B2:B)`],
     ['Possible duplicates (replies - distinct names)', '=B2-B6'],
   ]);
+  sm.getRange('A9:B16').setValues([
+    ['By family', ''],
+    ['Ajay family: replies', `=COUNTIF(${r}I2:I,"ajay")`],
+    ['Ajay family: replies attending', `=COUNTIFS(${r}I2:I,"ajay",${r}C2:C,"${ATTEND}")`],
+    ['Ajay family: guests attending', `=SUMIFS(${r}D2:D,${r}I2:I,"ajay",${r}C2:C,"${ATTEND}")`],
+    ['Edna family: replies', `=COUNTIF(${r}I2:I,"edna")`],
+    ['Edna family: replies attending', `=COUNTIFS(${r}I2:I,"edna",${r}C2:C,"${ATTEND}")`],
+    ['Edna family: guests attending', `=SUMIFS(${r}D2:D,${r}I2:I,"edna",${r}C2:C,"${ATTEND}")`],
+    ['Replies with no family (sent before family links)', `=B2-B10-B13`],
+  ]);
+  sm.getRange('A9').setFontWeight('bold').setFontSize(12);
+  sm.getRange('A12:B12').setFontWeight('bold');
+  sm.getRange('A15:B15').setFontWeight('bold');
   MailApp.getRemainingDailyQuota();                   // asks for email permission during setup
   sm.getRange('A1').setFontWeight('bold').setFontSize(14);
   sm.getRange('A5:B5').setFontWeight('bold');
